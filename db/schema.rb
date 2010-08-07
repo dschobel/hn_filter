@@ -9,13 +9,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100803054120) do
+ActiveRecord::Schema.define(:version => 1) do
 
-  create_table "posts", :force => true do |t|
-    t.string   "title"
-    t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "stories", :id => false, :force => true do |t|
+    t.integer  "id"
+    t.string   "title",      :limit => 200, :null => false
+    t.string   "url",        :limit => 200, :null => false
+    t.integer  "score",                     :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
 end
