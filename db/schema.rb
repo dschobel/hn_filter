@@ -9,7 +9,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1) do
+ActiveRecord::Schema.define(:version => 2) do
+
+  create_table "statistics", :force => true do |t|
+    t.string   "timeframe",  :limit => 200, :null => false
+    t.float    "mean",                      :null => false
+    t.float    "median",                    :null => false
+    t.integer  "min",                       :null => false
+    t.integer  "max",                       :null => false
+    t.datetime "updated_at",                :null => false
+  end
 
   create_table "stories", :id => false, :force => true do |t|
     t.integer  "id"

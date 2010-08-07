@@ -1,5 +1,3 @@
-require 'active_record'
-
 class Story < ActiveRecord::Base
   include Comparable
 
