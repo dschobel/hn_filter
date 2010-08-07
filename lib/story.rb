@@ -1,23 +1,28 @@
+require 'dm-core'
+
 class Story 
     include Comparable
-    attr_accessor :id
-    attr_accessor :name
-    attr_accessor :url
-    attr_accessor :hn_url
-    attr_accessor :score
+    include DataMapper::Resource
+    property :id,    Integer, :key => true
+    property :title,    String, :length => 200
+    property :url, String, :length => 200
+    property :score, Integer
+    property :created_at, DateTime
+    property :updated_at, DateTime
+
     def <=>(other)
         self.score <=> other.score
     end
 
-    def initialize(id, name, url, score)
-        @id = id
-        @name = name
-        if url =~ /item\?id=\d+/
-            @url = "http://news.ycombinator.com/#{url}"
+    def url=(new_url)
+        if new_url =~ /item\?id=\d+/
+            attribute_set(:url,"http://news.ycombinator.com/#{new_url}")
         else 
-            @url = url
+            attribute_set(:url,new_url)
         end
-        @score = score
+    end
+
+    def HNUrl(id)
         @hn_url = "http://news.ycombinator.com/item?id=#{@id}"
     end
 end

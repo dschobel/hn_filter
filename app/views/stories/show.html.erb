@@ -1,0 +1,33 @@
+<p>
+  <b>Id:</b>
+  <%=h @story.id %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @story.title %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%=h @story.url %>
+</p>
+
+<p>
+  <b>Score:</b>
+  <%=h @story.score %>
+</p>
+
+<p>
+  <b>Created at:</b>
+  <%=h @story.created_at %>
+</p>
+
+<p>
+  <b>Updated at:</b>
+  <%=h @story.updated_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_story_path(@story) %> |
+<%= link_to 'Back', stories_path %>
