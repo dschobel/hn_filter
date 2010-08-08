@@ -16,6 +16,7 @@ class Statistic < ActiveRecord::Base
   def self.CalculateStatistics(timeframe)
       tf = TIMEFRAMES[timeframe] || puts ("failed to find key #{timeframe}")
       puts "calculating last day for real, using connection #{connection.to_s}"
-      #connection.execute("exec calculate_stats '1'")
+      puts "parameter will be #{tf}"
+      connection.execute("exec calculate_stats '#{tf}'")
   end
 end
