@@ -12,12 +12,12 @@
 ActiveRecord::Schema.define(:version => 2) do
 
   create_table "statistics", :force => true do |t|
-    t.string   "timeframe",  :limit => 200, :null => false
-    t.float    "mean",                      :null => false
-    t.float    "median",                    :null => false
-    t.integer  "min",                       :null => false
-    t.integer  "max",                       :null => false
-    t.datetime "updated_at",                :null => false
+    t.integer  "timeframe_in_days", :null => false
+    t.float    "mean",              :null => false
+    t.float    "median",            :null => false
+    t.integer  "min",               :null => false
+    t.integer  "max",               :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "stories", :id => false, :force => true do |t|

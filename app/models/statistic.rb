@@ -1,9 +1,21 @@
 class Statistic < ActiveRecord::Base
-  TIMEFRAMES = %w{ last_day last_week last_month last_year alltime }
+  TIMEFRAMES = {
+    :last_day => 1,
+    :last_week => 7,
+    :last_month => 30,
+    :last_year => 365,
+    :alltime => -1
+  }
 
   validate :timeframe_must_be_valid
 
   def timeframe_must_be_valid
-    errors.add_to_base("timeframe must be one of: [#{TIMEFRAMES.join ", "}]") unless TIMEFRAMES.member? timeframe
+    errors.add_to_base("timeframe must be one of: [#{TIMEFRAMES.keys.join ", "}]") unless TIMEFRAMES.has_key? timeframe
+  end
+
+  def self.CalculateStatistics(timeframe)
+      tf = TIMEFRAMES[timeframe] || puts ("failed to find key #{timeframe}")
+      puts "calculating last day for real, using connection #{connection.to_s}"
+      #connection.execute("exec calculate_stats '1'")
   end
 end
