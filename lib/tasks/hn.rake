@@ -28,7 +28,12 @@ namespace :hn do
       Statistic.CalculateStatistics  args[:timeframe].to_sym
       puts "Finished processing #{args[:timeframe]}'s statistics in #{Time.now - start}s"
     end
+    task :update_all => :environment do
+      #Rake::Task["your_task"].execute({:some_param => some_value})
+      Statistic::TIMEFRAMES.keys.each do |key|
+        Rake::Task['hn:stats:update'].execute({:timeframe => key})
+      end
+    end
   end
 
-  #task :all => [:last_day, :last_week, :last_month, :last_year, :all_time]
 end
