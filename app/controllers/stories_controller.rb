@@ -7,7 +7,7 @@ class StoriesController < ApplicationController
     respond_to do |format|
       limit = params[:limit] || 20
       if params[:threshold]
-        @stories = Story.find(:all, :conditions => "score > #{params[:threshold]}", :order =>"updated_at", :limit => limit)
+        @stories = Story.find(:all, :conditions => "score > #{params[:threshold]}", :order =>"updated_at DESC", :limit => limit)
       else
         @stories = Story.all(:limit => limit)
       end
