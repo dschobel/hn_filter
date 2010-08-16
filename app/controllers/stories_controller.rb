@@ -1,12 +1,19 @@
 class StoriesController < ApplicationController
+  layout "stories"
+
   # GET /stories
   # GET /stories.xml
   def index
-    @stories = Story.all
-
     respond_to do |format|
+      limit = params[:limit] || 20
+      if params[:threshold]
+        @stories = Story.find(:all, :conditions => "score > #{params[:threshold]}", :order =>"updated_at", :limit => limit)
+      else
+        @stories = Story.all(:limit => limit)
+      end
+
       format.html # index.html.erb
-      format.xml  { render :xml => @stories }
+      format.xml  # index.xml.builder
     end
   end
 
