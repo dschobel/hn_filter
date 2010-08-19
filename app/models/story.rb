@@ -13,7 +13,7 @@ class Story < ActiveRecord::Base
     end
   end
 
-  def HNUrl(id)
-    @hn_url = "http://news.ycombinator.com/item?id=#{@id}"
+  def hn_url
+    "http://news.ycombinator.com/item?id=#{self.id}"
   end
 end

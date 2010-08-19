@@ -9,6 +9,7 @@ xml.rss(:version=>"2.0"){
     xml.item do
       xml.title(story.title)
       xml.description("score: #{story.score}")
+      xml.comments(story.hn_url)
       #xml.author("Your Name Here")
       xml.pubDate(story.created_at.strftime("%a, %d %b %Y %H:%M:%S %z"))
       xml.link(story.url)
