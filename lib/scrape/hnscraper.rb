@@ -1,26 +1,39 @@
 require 'rubygems'
 require 'open-uri'
+require 'active_record'
 require 'nokogiri'
 require 'story'
 
 class HNScraper
 
-  def initialize(path = "http://news.ycombinator.com")
-    @path = path
+  HN = 'http://news.ycombinator.com'
+
+  def self.getMoreLink(hn)
+    link = hn.css('.title:nth-child(2) a')
+    HN + link.first.attr('href')
   end
 
-  def self.validConfig?(file)
-    file && File.readable?(file) && File.extname(file) == '.yml'
-  end
-
-  def scrape(dbConfig)
-    hn = Nokogiri::HTML(open(@path))
-
-    titles = hn.css('.title:nth-child(3) a')
-    points = hn.css('.subtext span')
-
-    #put it all together
+  def self.Scrape(dbConfig, rounds=1, delay_in_seconds=5)
+    rounds = rounds.to_i unless rounds.class == Fixnum
     ActiveRecord::Base.establish_connection(dbConfig)
+    puts "scraping #{rounds} pages"
+    nextPage = HN
+    for round in (1..rounds)
+      puts "current round is #{round}"
+      puts "nextPage is #{nextPage}"
+      page = Nokogiri::HTML(open(nextPage))
+      HNScraper.scrapePage(page)
+      nextPage = HNScraper::getMoreLink page
+      puts "sleeping for #{delay_in_seconds} seconds"
+      sleep delay_in_seconds unless rounds == 1
+    end
+  end
+
+  def self.scrapePage(page)
+
+    titles = page.css('.title:nth-child(3) a')
+    points = page.css('.subtext span')
+
     stories =[]
     for i in (0..29)
       title = titles[i].children.inner_text

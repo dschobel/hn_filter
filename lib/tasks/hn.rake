@@ -3,14 +3,15 @@ require 'app/models/statistic'
 require 'lib/scrape/hnscraper'
 
 namespace :hn do
-  task :scrape => :environment do
+  task :scrape,:rounds, :needs => :environment do |t, args|
     start = Time.now
     puts "environment is #{Rails.env}"
     puts "using db config: hn_#{Rails.env}"
-    scraper = HNScraper.new
-    scraper.scrape ActiveRecord::Base.configurations["hn_#{Rails.env}"]
+    puts "rounds: #{args[:rounds]}"
+    HNScraper.Scrape(ActiveRecord::Base.configurations["hn_#{Rails.env}"],args[:rounds])
     puts "Done scraping in #{Time.now - start}s"
   end
+
   task :echo, :message do |t, args|
     message = args[:message] || 'Hello'
     puts message
